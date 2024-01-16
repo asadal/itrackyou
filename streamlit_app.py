@@ -3,10 +3,7 @@ import supervision as sv
 from ultralytics import YOLO
 import os
 import streamlit as st
-import re
-import tempfile as tf
 from tempfile import NamedTemporaryFile
-import shutil
 
 model = YOLO("yolov8n.pt")
 tracker = sv.ByteTrack()
