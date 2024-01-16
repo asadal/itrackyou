@@ -1,0 +1,4 @@
+numpy
+supervision
+ultralytics
+streamlit
