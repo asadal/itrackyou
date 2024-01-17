@@ -53,7 +53,7 @@ def delete_original_video(video_file_path):
 def app():
     # Set page title and icon
     st.set_page_config(
-        page_title="I Trach You",
+        page_title="I Track You",
         page_icon="https://static-00.iconduck.com/assets.00/radar-icon-2048x2048-parhwoy9.png"
     )
     # Featured image
