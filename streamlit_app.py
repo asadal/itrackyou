@@ -54,11 +54,11 @@ def app():
     # Set page title and icon
     st.set_page_config(
         page_title="I Track You",
-        page_icon="https://static-00.iconduck.com/assets.00/radar-icon-2048x2048-parhwoy9.png"
+        page_icon="https://raw.githubusercontent.com/asadal/itrackyou/main/images/track_pictogram.png"
     )
     # Featured image
     st.image(
-        "https://static-00.iconduck.com/assets.00/radar-icon-2048x2048-parhwoy9.png",
+        "https://raw.githubusercontent.com/asadal/itrackyou/main/images/track_pictogram.png",
         width=150
     )
     # Main title and description
