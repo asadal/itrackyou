@@ -64,7 +64,7 @@ def app():
     # Main title and description
     st.title("I Track You")
     st.markdown("### Just **upload** video. That's it!")
-    st.markdown("If not working, Refresh page. ⟳")
+    st.markdown("If not working, refresh page. 🔄")
 
     
     video_file = st.file_uploader("Upload video", type=["mp4", "mov", "avi"])
