@@ -1,6 +1,6 @@
 # I Track You
 
-![I Track You](https://static-00.iconduck.com/assets.00/radar-icon-2048x2048-parhwoy9.png)
+![I Track You](images/track_pictogram.png)
 
 Track everything in your video file.
 
