@@ -33,10 +33,20 @@ def callback(frame: np.ndarray, _: int) -> np.ndarray:
     return trace_annotator.annotate(
         annotated_frame, detections=detections)
 
+def save_uploaded_file(uploaded_file):
+    with NamedTemporaryFile(delete=False) as temp_file:
+        temp_file.write(uploaded_file.read())
+        return temp_file.name
+
 def string_to_byte(filepath):
     with open(filepath, 'rb') as f:
         file_path = f.read()
     return file_path
+
+def delete_original_video(video_file_path):
+    if os.path.exists(video_file_path):
+        os.remove(video_file_path)
+    st.session_state.video_processed = False
 
 ###########################
 
@@ -53,46 +63,45 @@ def app():
     )
     # Main title and description
     st.title("I Track You")
-    st.markdown("Just **upload** video. That's it!")
+    st.markdown("### Just **upload** video. That's it!")
+    st.markdown("If not working, Refresh page. ⟳")
 
+    
     video_file = st.file_uploader("Upload video", type=["mp4", "mov", "avi"])
 
     if 'video_processed' not in st.session_state:
         st.session_state.video_processed = False
 
     if video_file is not None:
-        if not st.session_state.video_processed:
-            st.video(video_file)
-            output_file_name = "output_" + video_file.name
-            # print("비디오 파일 형식은 : ", type(video_file))
+        st.session_state.video_processed = False
+        st.video(video_file)
+        video_file_path = save_uploaded_file(video_file)
+        output_file_name = "output_" + video_file.name
+        if st.button("Track and Download"):
             with st.spinner("Tracking objects..."):
                 with NamedTemporaryFile(suffix=".mp4", delete=False) as tmp_file:
                     tmp_file.write(video_file.getvalue())
                     file_path = tmp_file.name
-                    # print("파일 경로 : ", file_path)
                     output_file_path = os.path.splitext(file_path)[0] + "_output.mp4"
                     sv.process_video(
                         source_path=file_path,
                         target_path=output_file_path,
                         callback=callback
-                        )
+                    )
             st.write("Tracking complete!")
-            if os.path.exists(output_file_path):
-                print(f"File exists at {output_file_path}")
-            else:
-                print(f"File does not exist at {output_file_path}")
             output_data = string_to_byte(output_file_path)
-            
-            # 추적된 동영상 보기(제대로 안 보일 수 있음)
             st.video(
-                data=output_data, 
+                data=output_data,
                 format='video/mp4')
             st.write("Can't see the video properly? Download it instead.")
             st.download_button(
-                label="Download Output Video", 
+                label="Download Output Video",
                 data=output_data,
-                file_name=output_file_name)
+                file_name=output_file_name,
+                on_click=delete_original_video(video_file_path))
             st.session_state.video_processed = True
+            st.session_state.video_file = None
 
+        
 if __name__ == "__main__":
     app()
