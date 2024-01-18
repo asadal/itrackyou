@@ -150,6 +150,7 @@ def app():
                     cv2.destroyAllWindows()
                 st.write("Tracking complete!")
                 st.video("output_video.mp4")
+                display_tracked_objects()
                 cap.release()
                 out.release()
                 cv2.destroyAllWindows()
