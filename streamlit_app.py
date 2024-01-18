@@ -26,17 +26,24 @@ def callback(frame: np.ndarray, _: int) -> np.ndarray:
     detections = sv.Detections.from_ultralytics(results)
     detections = tracker.update_with_detections(detections)
 
-    # 추적된 객체들의 ID와 레이블을 기록
+    # 현재 프레임의 객체에 대한 레이블 리스트 생성
+    labels = []
     for class_id, tracker_id in zip(detections.class_id, detections.tracker_id):
         label = results.names[class_id]
-        tracked_objects[tracker_id] = label
+        # 고유 ID에 해당하는 이름이 tracked_objects에 없으면 추가
+        if tracker_id not in tracked_objects:
+            tracked_objects[tracker_id] = label
+        # 이름과 ID를 조합한 레이블 생성
+        combined_label = f"{tracked_objects[tracker_id]}{tracker_id}"
+        labels.append(combined_label)
 
     # 프레임에 바운딩 박스와 레이블을 주석으로 추가
     annotated_frame = box_annotator.annotate(frame.copy(), detections=detections)
-    annotated_frame = label_annotator.annotate(annotated_frame, detections=detections)
+    annotated_frame = label_annotator.annotate(annotated_frame, detections=detections, labels=labels)
 
     # 추적 경로를 프레임에 주석으로 추가
     return trace_annotator.annotate(annotated_frame, detections=detections)
+
 
 def save_uploaded_file(uploaded_file):
     with NamedTemporaryFile(delete=False) as temp_file:
