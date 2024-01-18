@@ -1,9 +1,3 @@
-# import torch
-# import torchvision
-
-# print(torch.__version__)
-# print(torchvision.__version__)
-
 import numpy as np
 import supervision as sv
 from ultralytics import YOLO
