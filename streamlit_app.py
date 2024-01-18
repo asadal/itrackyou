@@ -87,6 +87,7 @@ def app():
     )
     # Main title and description
     st.title("I Track You")
+    st.markdown("Track any object in a photo or video. First, select a photo or video from the menu (on mobile, press the top left '**>**' button to open the menu and make your selection).")
     
     track_menu = ['Track Image', 'Track Video']
 
