@@ -72,7 +72,7 @@ def app():
 
     with st.sidebar:
         menu_select = st.radio(
-            "I wanna track...",
+            "I wanna...",
             track_menu,
             key="radio"
         )
