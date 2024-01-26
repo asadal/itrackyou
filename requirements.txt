@@ -2,5 +2,5 @@ numpy
 supervision
 ultralytics
 streamlit
-cv2
+opencv-python
 Counter
