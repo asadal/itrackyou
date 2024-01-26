@@ -9,7 +9,8 @@ from collections import Counter
 
 model = YOLO("yolov8n.pt")
 tracker = sv.ByteTrack()
-box_annotator = sv.BoundingBoxAnnotator()
+# box_annotator = sv.BoundingBoxAnnotator()
+polygon_annotator = sv.PolygonAnnotator()
 # 하단 원 모양(ellipse)으로 바꾸기
 # ellipse_annotator = sv.EllipseAnnotator()
 label_annotator = sv.LabelAnnotator()
@@ -38,7 +39,8 @@ def callback(frame: np.ndarray, _: int) -> np.ndarray:
         labels.append(combined_label)
 
     # 프레임에 바운딩 박스와 레이블을 주석으로 추가
-    annotated_frame = box_annotator.annotate(frame.copy(), detections=detections)
+    # annotated_frame = box_annotator.annotate(frame.copy(), detections=detections)
+    annotated_frame = polygon_annotator.annotate(frame.copy(), detections=detections)
     annotated_frame = label_annotator.annotate(annotated_frame, detections=detections, labels=labels)
 
     # 추적 경로를 프레임에 주석으로 추가
@@ -119,7 +121,8 @@ def app():
                     results = model(image)[0]
                     detections = sv.Detections.from_ultralytics(results)
 
-                    bounding_box_annotator = sv.BoundingBoxAnnotator()
+                    # bounding_box_annotator = sv.BoundingBoxAnnotator()
+                    polygon_annotator = sv.PolygonAnnotator()
                     label_annotator = sv.LabelAnnotator()
 
                     labels = [
@@ -131,7 +134,8 @@ def app():
                     # 사진 속 사물들 개수 세기
                     counts = count_objects(labels)
                     
-                    annotated_image = bounding_box_annotator.annotate(
+                    # annotated_image = bounding_box_annotator.annotate(
+                    annotated_image = polygon_annotator.annotate(
                         scene=image, detections=detections)
                     annotated_image = label_annotator.annotate(
                         scene=annotated_image, detections=detections, labels=labels)
