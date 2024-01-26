@@ -119,8 +119,7 @@ def app():
                     results = model(image)[0]
                     detections = sv.Detections.from_ultralytics(results)
 
-                    # bounding_box_annotator = sv.BoundingBoxAnnotator()
-                    polygon_annotator = sv.PolygonAnnotator()
+                    bounding_box_annotator = sv.BoundingBoxAnnotator()
                     label_annotator = sv.LabelAnnotator()
 
                     labels = [
