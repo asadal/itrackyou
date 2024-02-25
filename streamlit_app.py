@@ -7,7 +7,7 @@ from tempfile import NamedTemporaryFile
 import cv2
 from collections import Counter
 
-model = YOLO("yolov9-c.pt")
+model = YOLO("yolov8n.pt")
 tracker = sv.ByteTrack()
 box_annotator = sv.BoundingBoxAnnotator()
 # 하단 원 모양(ellipse)으로 바꾸기
